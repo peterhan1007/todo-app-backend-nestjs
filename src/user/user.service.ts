@@ -1,11 +1,11 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { constants } from 'src/constants';
 import { Repository } from 'typeorm';
 import * as jwt from 'jsonwebtoken';
 import * as bcrypt from 'bcrypt';
 import { hash } from 'bcryptjs';
 
+import { constants } from 'src/constants';
 import { CreateUserDto } from './dto/create-user.input';
 import { UpdateUserDto } from './dto/update-user.input';
 import { User } from './entities/user.entity';
@@ -36,9 +36,7 @@ export class UserService {
     const user = await this.usersRepository.findOne({ where: { name: name } });
     const isValid = await bcrypt.compare(password, user.password);
 
-    if (user == null) return user;
-
-    if (isValid) {
+    if (user.name && isValid) {
       return user;
     }
 

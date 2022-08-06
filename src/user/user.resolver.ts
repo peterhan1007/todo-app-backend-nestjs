@@ -1,5 +1,6 @@
 import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { Query as TQuery } from 'type-graphql';
+import { HttpException, HttpStatus } from '@nestjs/common';
 
 import { Roles } from 'src/roles/roles.decorators';
 import { UserService } from './user.service';
@@ -7,7 +8,6 @@ import { CreateUserDto } from './dto/create-user.input';
 import { UpdateUserDto } from './dto/update-user.input';
 import { User } from './entities/user.entity';
 import { Role } from 'src/roles/role.enum';
-import { HttpException, HttpStatus } from '@nestjs/common';
 
 @Resolver('User')
 export class UserResolver {
@@ -47,6 +47,7 @@ export class UserResolver {
     @Args('password') password: string,
   ): Promise<Record<string, unknown>> {
     const user = await this.userService.login(name, password);
+    console.log('dddd', user);
     if (user != null) {
       return this.userService.createToken({ id: user.id });
     }
@@ -65,7 +66,6 @@ export class UserResolver {
     @Args('description') description: string,
     @Args('password') password: string,
   ): Promise<Record<string, unknown>> {
-    console.log('here: ', name, password, email, title, description);
     const user = await this.userService.register(
       name,
       password,

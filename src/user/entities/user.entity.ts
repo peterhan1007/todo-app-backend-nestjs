@@ -9,9 +9,10 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-import { EntityHelper } from 'src/utils/entity-helper';
 import { Field, ObjectType } from '@nestjs/graphql';
 import { hash } from 'bcryptjs';
+
+import { EntityHelper } from 'src/utils/entity-helper';
 
 @Entity()
 @ObjectType()
